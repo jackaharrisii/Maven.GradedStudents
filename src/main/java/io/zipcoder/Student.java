@@ -79,8 +79,11 @@ public class Student implements Comparable<Student> {
 
     @Override
     public int compareTo(Student other) {
+        //first, try to sort by score in reverse order (high to low)
         if(this.getAverageExamScore().compareTo(other.getAverageExamScore()) != 0) {return -1 * this.getAverageExamScore().compareTo(other.getAverageExamScore());}
+        //if the same score, use last name from low to high as the tie breaker
         else if (lastName.compareTo(other.lastName) != 0) {return lastName.compareTo(other.lastName);}
+        //if the same last name, use first name from low to high
         else {return firstName.compareTo(other.firstName);}
     }
 }

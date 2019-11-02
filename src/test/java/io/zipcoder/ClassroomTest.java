@@ -6,6 +6,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public class ClassroomTest {
 
@@ -15,6 +17,7 @@ public class ClassroomTest {
     private Student hugh;
     private Classroom testClassroom;
     private ArrayList<Student> expectedStudents;
+    private LinkedHashMap<String, String> testGradeBook;
 
     @Before
     public void setUp() throws Exception {
@@ -24,6 +27,7 @@ public class ClassroomTest {
         hugh = new Student("Hugh", "Mann", new ArrayList<Double>(Arrays.asList(100D, 95D, 98D)));
         expectedStudents = new ArrayList<Student>(Arrays.asList(john, emily, fritz));
         testClassroom = new Classroom(expectedStudents);
+        testGradeBook = new LinkedHashMap<String, String>();
     }
 
     @Test
@@ -86,6 +90,15 @@ public class ClassroomTest {
     //rank students by average test scores - tiebreaker is lexicographical order
     public void getStudentsByScoreTest(){
         Assert.assertEquals(Arrays.asList(emily, john, fritz), testClassroom.getStudentsByScore());
+    }
+
+    @Test
+    //assign grades to each student
+    public void getGradeBookTest(){
+        testGradeBook.put("Emily Smith", "B");
+        testGradeBook.put("John Smith", "B");
+        testGradeBook.put("Fritz Smith", "C");
+        Assert.assertEquals(testGradeBook, testClassroom.getGradeBook());
     }
 
 }

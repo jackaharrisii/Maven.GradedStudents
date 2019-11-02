@@ -6,6 +6,7 @@ import java.util.*;
 public class Classroom {
     public Integer maxNumberOfStudents;
     public ArrayList<Student> students;
+    public LinkedHashMap<String, String> gradeBookMap;
 
     public Classroom(ArrayList<Student> students) {
         this.students = students;
@@ -66,16 +67,25 @@ public class Classroom {
 //        }
 //        return studentListSortedByScore;
 
+        //created a custom object sorter in the Student class
         Collections.sort(students);
         return students;
     }
 
-//    public class HashMap<Student, String> extends AbstractMap<Student, String> implements Map<Student, String>, Cloneable, Serializable{
-//
-//    }
-
-    public Student getGradeBook(){
-        return null;
+    public HashMap<String, String> getGradeBook(){
+        gradeBookMap = new LinkedHashMap<String, String>();
+        getStudentsByScore();          // sorts students by grade > lastName > firstName order before inserting into LinkedHashMap
+        String letterGrade = "I";
+        for (int i = 0; i < students.size(); i++){
+            if (students.get(i).getAverageExamScore() <= 100 && students.get(i).getAverageExamScore() >= 90) {letterGrade = "A";}      //possible bug - will not return a letter grade for scores above 100
+            else if (students.get(i).getAverageExamScore() < 90 && students.get(i).getAverageExamScore() >=71 ) {letterGrade = "B";}
+            else if (students.get(i).getAverageExamScore() < 71 && students.get(i).getAverageExamScore() >=50 ) {letterGrade = "C";}
+            else if (students.get(i).getAverageExamScore() < 50 && students.get(i).getAverageExamScore() >=11 ) {letterGrade = "D";}
+            else if (students.get(i).getAverageExamScore() < 11 && students.get(i).getAverageExamScore() >=0 ) {letterGrade = "F";}
+            else {letterGrade = "I";}       //sets grade to "I" for "incomplete" if they don't have a grade or if there is an error in their grading
+            gradeBookMap.put((students.get(i).getFirstName() + " " + students.get(i).getLastName()), letterGrade);
+        }
+        return gradeBookMap;
     }
 
 }
